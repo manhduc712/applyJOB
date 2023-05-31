@@ -7,6 +7,7 @@ import ScrollPage from './components/ScrollPage';
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
 import Company from './pages/Company';
+
 function App() {
   return (
     <div>
