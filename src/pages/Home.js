@@ -1,10 +1,14 @@
+
+
 import '../css/Home.css'
+
 import anh from '../../src/assets/applyjob.jpg'
 import Double from '../../src/assets/double.png'
 import Laptop from '../../src/assets/laptop.jpg'
 import Single from '../../src/assets/single.png'
 import Triple from '../../src/assets/triple.png'
 const Home = () => {
+
 
     return (
         <div className='text-white'>
