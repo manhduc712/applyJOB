@@ -12,6 +12,7 @@ export const loadPost = () => async dispatch => {
             data: responseBody
         });
 
+
     } catch (error) {
         console.log(error);
 

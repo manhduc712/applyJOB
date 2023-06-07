@@ -109,7 +109,6 @@ const Navbar = () => {
 			setMessageUserNane('Chưa Nhập UserName !')
 			nameRef.current.focus()
 		}
-
 	}
 
 	const handleLogout = () => {

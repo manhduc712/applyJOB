@@ -51,9 +51,6 @@ const data = [
     }
 ]
 
-
-
-
 const Company = () => {
 
     const [search, setSearch] = useState('')
