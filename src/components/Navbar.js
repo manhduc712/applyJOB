@@ -6,6 +6,9 @@ import { FaUserAlt } from 'react-icons/fa';
 import { LuLogIn, LuLogOut } from "react-icons/lu";
 import { CgProfile } from "react-icons/cg";
 
+import { useDispatch, useSelector } from 'react-redux';
+import { loadPost } from '../api/actions/postAction';
+
 import Modal from '../components/Modal'
 
 import logo from '../../src/assets/logo.png';
@@ -45,7 +48,6 @@ const Navbar = () => {
 
 	const [showRegister, setShowRegister] = useState(false);
 
-	const [account, setAccount] = useState([])
 	const [messageUserNane, setMessageUserNane] = useState('')
 	const [messageEmail, setMessageEmail] = useState('')
 	const [message, setMessage] = useState('')
@@ -54,12 +56,14 @@ const Navbar = () => {
 
 	const emailRef = useRef();
 
+	const data = useSelector(state => state.post.data);
+	// const requesting = useSelector(state => state.post.requesting);
+
+	const dispatch = useDispatch();
+
+
 	useEffect(() => {
-		fetch("https://jsonplaceholder.typicode.com/users")
-			.then((res) => res.json())
-			.then((res) => {
-				setAccount(res);
-			});
+		dispatch(loadPost());
 		const user = localStorage.getItem('user')
 		if (user) {
 			setMessage('')
@@ -68,15 +72,6 @@ const Navbar = () => {
 		}
 
 	}, []);
-
-	// useMemo(() => {
-	// 	// const user = localStorage.getItem('user')
-	// 	// if (user) {
-	// 	// 	setMessage('')
-	// 	// 	setLogin(true)
-	// 	// 	setShowLogin(false)
-	// 	// }
-	// }, [])
 
 	const check = param => {
 		if (typeof param === 'undefined' || param.toString() === '')
@@ -89,11 +84,12 @@ const Navbar = () => {
 		const userName = nameRef.current.value
 		const email = emailRef.current.value
 
+
 		if (check(userName)) {
 			setMessageUserNane('')
 			if (check(email)) {
 				setMessageEmail('')
-				const process = account.find(e => e?.username === userName && e?.email === email);
+				const process = data.find(e => e?.username === userName && e?.email === email);
 
 				if (!process) {
 					setMessage('UserName or Email Không đúng !')
@@ -113,6 +109,7 @@ const Navbar = () => {
 			setMessageUserNane('Chưa Nhập UserName !')
 			nameRef.current.focus()
 		}
+
 	}
 
 	const handleLogout = () => {
@@ -136,7 +133,7 @@ const Navbar = () => {
 				<li className='p-4'>CV</li>
 			</ul>
 
-			<input type='text' placeholder='Search' className={searchItem ? 'rounded-lg bg-black text-white border-2 border-teal-300 h-' : 'hidden'} />
+			<input type='text' placeholder='Search' className={searchItem ? 'rounded-lg bg-black text-white border-2 border-teal-300' : 'hidden'} />
 
 			<div onClick={clickSearch}>
 				{searchItem ? <AiOutlineDoubleRight size={25} /> : <AiOutlineSearch size={25} />}
