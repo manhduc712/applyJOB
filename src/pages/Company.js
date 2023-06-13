@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import '../css/Company.css'
 
 import logo from '../../src/assets/logo.png';
@@ -79,7 +79,6 @@ const Company = () => {
                                     <div className='flex' key={item.id}>
                                         <img src={logo} alt='' width={70} />
                                         <h2 className='font-bold text-[#00df9a] mt-4'>{item.name}</h2>
-
                                     </div>
                                     <p className='font-bold'>Address: {item.address}</p>
                                     <p className='font-bold'>Salary: {item.salary}</p>
