@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FaLocationArrow, FaMailBulk, FaHourglassEnd } from "react-icons/fa";
+import { FaLocationArrow, FaMailBulk} from "react-icons/fa";
 
 
 const Footer = () => {

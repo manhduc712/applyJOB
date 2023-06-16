@@ -1,28 +1,34 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { FaUserAlt } from 'react-icons/fa';
 
-// import store from '../api/store'\
+import moment from 'moment'; // for date format
 
-import { connect } from 'react-redux';
-import { profile } from '../api/actions/actions'
-import { useNavigate } from 'react-router-dom';
+import { connect, useDispatch } from 'react-redux';
+import { profile, editActions } from '../api/actions/actions'
 
 const Profile = ({ user, error, fetchProfile }) => {
-
-  const navigate = useNavigate();
-
-  // const state = store.getState();
-
-  // console.log(state);
 
   useEffect(() => {
     fetchProfile()
   }, [])
 
+  const [isDisabled, setIsDisabled] = useState(true)
+
+  const dispatch = useDispatch()
+
+  const [firstname, setFirstname] = useState('')
+  const [lastname, setLastname] = useState('')
+  const [gender, setGender] = useState('')
+  const [mobile, setMobile] = useState('')
+  const [address, setAddress] = useState('')
+
+  const handleEdit = () => {
+    dispatch(editActions(firstname, lastname, gender, mobile, address))
+    console.log(firstname, lastname, gender, mobile, address)
+  }
 
   return (
-
     <div className='w-full bg-white py-10 px-4 mt-[60px]'>
       {error && <div>{error}</div>}
       {user ? (<div className='max-w-[1240px] mx-auto'>
@@ -47,14 +53,14 @@ const Profile = ({ user, error, fetchProfile }) => {
                 </li>
                 <li className="flex items-center py-3">
                   <span>Member since</span>
-                  <span className="ml-auto">{user.createdAt}</span>
+                  <span className="ml-auto">{moment(user.createdAt).format('DD/MM/YYYY')}</span>
                 </li>
               </ul>
             </div>
           </div>
 
           <div className="w-full md:w-9/12 mx-2 h-64 border-t-4 border-green-400">
-            <div className="bg-white p-3 shadow-sm rounded-sm ">
+            <div className="bg-white p-3 shadow-2xl rounded-sm ">
               <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
                 <span clas="text-green-500">
                   <FaUserAlt className='text-2xl text-black-500' />
@@ -65,39 +71,39 @@ const Profile = ({ user, error, fetchProfile }) => {
                 <div className="grid md:grid-cols-2 text-sm">
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">First Name</div>
-                    <input className='px-4 py-2' value={user.firstname} disabled />
+                    <input className='px-4 py-2' defaultValue={user.firstname} disabled={isDisabled} onChange={(e) => setFirstname(e.target.value)} />
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Last Name</div>
-                    <input className='px-4 py-2' value={user.lastname} disabled />
+                    <input className='px-4 py-2' defaultValue={user.lastname} disabled={isDisabled} onChange={(e) => setLastname(e.target.value)}/>
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Gender</div>
-                    <input className='px-4 py-2' value={user.gender} disabled />
+                    <input className='px-4 py-2' defaultValue={user.gender} disabled={isDisabled} onChange={(e) => setGender(e.target.value)} />
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Contact No.</div>
-                    <input className='px-4 py-2' value={user.mobile} disabled />
+                    <input className='px-4 py-2' defaultValue={user.mobile} disabled={isDisabled} onChange={(e) => setMobile(e.target.value)} />
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Current Address</div>
-                    <input className='px-4 py-2' value={user.address} disabled />
+                    <input className='px-4 py-2' defaultValue={user.address} disabled={isDisabled} onChange={(e) => setAddress(e.target.value)} />
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Permanant Address</div>
-                    <input className='px-4 py-2' disabled />
+                    <input className='px-4 py-2' disabled={isDisabled} />
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Email.</div>
-                    <input className='px-4 py-2' value={user.email} disabled />
+                    <input className='px-4 py-2' defaultValue={user.email} disabled />
                   </div>
                   <div className="grid grid-cols-2">
                     <div className="px-4 py-2 font-semibold">Birthday</div>
-                    <input className='px-4 py-2' disabled />
+                    <input className='px-4 py-2' disabled={isDisabled} />
                   </div>
                 </div>
-              </div>
-              <div>
+                {isDisabled ? <button className='bg-green-500 text-white px-4 py-2 rounded-lg' onClick={() => setIsDisabled(!isDisabled)}>Edit</button>
+                  : <button className='bg-green-500 text-white px-4 py-2 rounded-lg' type='submit' onClick={handleEdit} >Save</button>}
               </div>
             </div>
           </div>
